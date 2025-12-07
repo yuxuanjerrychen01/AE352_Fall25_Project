@@ -31,4 +31,13 @@ p.kd_pos = diag([3.0, 3.0, 4.5]);   % velocity D
 p.kR = diag([8.0, 8.0, 4.0]);       % attitude error gain
 p.kW = diag([2.5, 2.5, 1.5]);       % angular rate gain
 
+% Battery parameters (already implied in the report)
+p.Vbat     = 14.8;    % [V]
+p.Cbat_Ah  = 4.0;     % [Ah]
+p.Ebat_Wh  = p.Vbat * p.Cbat_Ah;  % [Wh] ~ 59.2
+
+% Linear aerodynamic drag coefficient (F_drag = -C_d * v)
+p.Cd = 0.3;           % [kg/s] (tunable)
+
+
 end

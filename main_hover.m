@@ -15,6 +15,34 @@ odefun = @(t,x) quad_dynamics(t,x,p,traj_handle);
 opts   = odeset('RelTol',1e-6,'AbsTol',1e-7);
 [t_sol,x_sol] = ode45(odefun, tspan, x0, opts);
 
+% --- Existing simulation code above this point ---
+% [t_sol, x_sol] = ode45(odefun, tspan, x0, opts);
+% pos = x_sol(:,1:3); eta = x_sol(:,7:9);
+% ... your existing hover plots ...
+
+% ===== Additional plots: power and battery usage (Goal 1) =====
+[P_tot, E_Wh, SOC] = compute_power_profile(t_sol, x_sol, p, traj_handle);
+
+% Power vs time
+figure;
+plot(t_sol, P_tot, 'LineWidth', 1.5);
+xlabel('Time [s]');
+ylabel('Approx. mechanical power P(t) [W]');
+title('Hover: total mechanical power vs time');
+grid on;
+saveas(gcf, 'hover_power.png');
+
+% Battery state-of-charge vs time
+figure;
+plot(t_sol, 100*SOC, 'LineWidth', 1.5);
+xlabel('Time [s]');
+ylabel('Estimated battery remaining [%]');
+title('Hover: estimated battery state-of-charge');
+ylim([0 100]);
+grid on;
+saveas(gcf, 'hover_battery_soc.png');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 pos = x_sol(:,1:3);
 eta = x_sol(:,7:9);
 
@@ -32,3 +60,6 @@ xlabel('Time [s]'); ylabel('Euler angles [deg]');
 legend('\phi','\theta','\psi');
 title('Goal 1: Hover attitude'); grid on;
 saveas(gcf,'hover_attitude.png');
+
+
+

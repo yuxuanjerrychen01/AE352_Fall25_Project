@@ -86,6 +86,10 @@ tau_vec = [ ...
 % IMPORTANT FIX: thrust acts upward along +b3 in inertial frame
 F = -m*g*e3 + T_total*b3;
 
+% Inertial-frame total force including gravity, thrust, and linear drag
+F = -m*g*e3 + T_total*b3 - p.Cd*vel;
+
+
 omega_dot = J \ (tau_vec - cross(omega, J*omega));
 
 W = [1 sin(phi)*tan(theta) cos(phi)*tan(theta);
